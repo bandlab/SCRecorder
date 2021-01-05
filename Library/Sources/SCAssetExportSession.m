@@ -616,6 +616,8 @@ static CGContextRef SCCreateContextFromPixelBuffer(CVPixelBufferRef pixelBuffer)
             if (videoComposition != nil) {
                 _filter = nil;
             }
+        } else if (videoComposition == nil) {
+            videoComposition = [AVMutableVideoComposition videoCompositionWithPropertiesOfAsset:_inputAsset];
         }
 
         NSDictionary *settings = nil;
