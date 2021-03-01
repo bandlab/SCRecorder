@@ -108,4 +108,7 @@
  */
 - (void)exportAsynchronouslyWithCompletionHandler:(void(^__nullable)(void))completionHandler;
 
+- (void)exportAsynchronouslyWithCompletionHandler:(void(^__nullable)(void))completionHandler
+                                         metadata:(NSArray<AVMutableMetadataItem *> *__nonnull)metadata;
+
 @end

@@ -656,6 +656,12 @@ static CGContextRef SCCreateContextFromPixelBuffer(CVPixelBufferRef pixelBuffer)
 }
 
 - (void)exportAsynchronouslyWithCompletionHandler:(void (^)(void))completionHandler {
+    [self exportAsynchronouslyWithCompletionHandler:completionHandler
+                                           metadata:[SCRecorderTools assetWriterMetadata]];
+}
+
+- (void)exportAsynchronouslyWithCompletionHandler:(void (^)(void))completionHandler
+                                         metadata:(NSArray<AVMutableMetadataItem *> *)metadata {
     _cancelled = NO;
     _nextAllowedVideoFrame = kCMTimeZero;
     NSError *error = nil;
@@ -664,7 +670,7 @@ static CGContextRef SCCreateContextFromPixelBuffer(CVPixelBufferRef pixelBuffer)
     
     _writer = [AVAssetWriter assetWriterWithURL:self.outputUrl fileType:self.outputFileType error:&error];
     _writer.shouldOptimizeForNetworkUse = _shouldOptimizeForNetworkUse;
-    _writer.metadata = [SCRecorderTools assetWriterMetadata];
+    _writer.metadata = metadata;
 
     EnsureSuccess(error, completionHandler);
     
