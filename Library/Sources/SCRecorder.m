@@ -1053,23 +1053,31 @@ static char* SCRecorderPhotoOptionsContext = "PhotoOptionsContext";
     if (_captureSession != nil) {
         [self beginConfiguration];
         
-        NSError *videoError = nil;
+        __block NSError *videoError = nil;
         if (shouldConfigureVideo) {
-            [self configureDevice:[self videoDevice] mediaType:AVMediaTypeVideo error:&videoError];
-            _transformFilter = nil;
             if ([SCRecorder isSessionQueue]) {
+                [self configureDevice:[self videoDevice] mediaType:AVMediaTypeVideo error:&videoError];
+                _transformFilter = nil;
                 [self updateVideoOrientation];
             } else {
                 dispatch_sync(_sessionQueue, ^{
+                    [self configureDevice:[self videoDevice] mediaType:AVMediaTypeVideo error:&videoError];
+                    _transformFilter = nil;
                     [self updateVideoOrientation];
                 });
             }
         }
         
-        NSError *audioError = nil;
-        
+        __block NSError *audioError = nil;
+
         if (shouldConfigureAudio) {
-            [self configureDevice:[self audioDevice] mediaType:AVMediaTypeAudio error:&audioError];
+            if ([SCRecorder isSessionQueue]) {
+                [self configureDevice:[self audioDevice] mediaType:AVMediaTypeAudio error:&audioError];
+            } else {
+                dispatch_sync(_sessionQueue, ^{
+                    [self configureDevice:[self audioDevice] mediaType:AVMediaTypeAudio error:&audioError];
+                });
+            }
         }
         
         [self commitConfiguration];
