@@ -10,13 +10,23 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #import "SCRecordSession.h"
+#import "SCSampleBufferHolder.h"
+#import "SCVideoPlayerView.h"
+#import "SCPlayer.h"
 #import "SCAssetExportSession.h"
 #import "SCImageView.h"
+#import "SCSwipeableFilterView.h"
+#import "SCRecorderToolsView.h"
 #import "SCVideoConfiguration.h"
 #import "SCAudioConfiguration.h"
 #import "SCPhotoConfiguration.h"
 #import "SCRecorderTools.h"
 #import "SCRecorderDelegate.h"
+#import "SCContext.h"
+#import "SCFilter+VideoComposition.h"
+#import "SCFilter+UIImage.h"
+#import "SCAudioTools.h"
+#import "SCRecorderFocusTargetView.h"
 
 @interface SCRecorder : NSObject<AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureFileOutputRecordingDelegate>
 
